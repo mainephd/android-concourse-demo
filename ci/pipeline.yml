@@ -5,6 +5,16 @@ resources:
     uri: git@github.com:mainephd/android-concourse-demo.git
     branch: master
     private_key: {{github-public-private-key}}
+- name: notify
+  type: slack-notification
+  source:
+    url: {{slack-webhook-url}}
+
+resource_types:
+  - name: slack-notification
+    type: docker-image
+    source:
+      repository: cfcommunity/slack-notification-resource
 
 jobs:
 - name: job-android-demo
@@ -19,6 +29,20 @@ jobs:
           source: {repository: gfx2015/android}
       inputs:
       - name: resource-android-demo
+      on_failure:
+        put: notify
+        params:
+          channel: #random
+          username: concourse
+          icon_url: https://avatars1.githubusercontent.com/u/7809479?v=3&s=200
+          text: "Test Of Failure"
+      on_success:
+              put: notify
+              params:
+                channel: #random
+                username: concourse
+                icon_url: https://avatars1.githubusercontent.com/u/7809479?v=3&s=200
+                text: "Test Of Failure"
       run:
         dir: resource-android-demo
         path: ./gradlew
