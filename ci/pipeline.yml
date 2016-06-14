@@ -1,0 +1,34 @@
+resources:
+- name: resource-bluetooth-scanner-android
+  type: git
+  source:
+    uri: git@github.homedepot.com:jdw27b1/bluetooth-skimmer-detector.git
+    branch: master
+    private_key: {{github-private-key}}
+    git_config:
+    - name: http.sslVerify
+      value: true
+
+jobs:
+- name: job-bluetooth-scanner-android
+  plan:
+  - get: resource-bluetooth-scanner-android
+    trigger: true
+  - task: build
+    config:
+      platform: linux
+      image_resource:
+          type: docker-image
+          source: {repository: gfx2015/android}
+      inputs:
+      - name: resource-bluetooth-scanner-android
+      run:
+        dir: resource-bluetooth-scanner-android
+        path: ./gradlew
+        args:
+        - 'clean'
+        - 'check'
+        - 'assembleDebug'
+        - '-PdisablePreDex'
+        - '--info'
+        - '--stacktrace'
