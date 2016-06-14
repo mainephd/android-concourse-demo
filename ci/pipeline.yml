@@ -20,7 +20,8 @@ jobs:
       inputs:
       - name: resource-android-demo
       run:
-        path: ./resource-android-demo/gradlew
+        dir: resource-android-demo
+        path: ./gradlew
         args:
         - 'clean'
         - 'check'
