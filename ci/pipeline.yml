@@ -4,7 +4,7 @@ resources:
   source:
     uri: git@github.com:mainephd/android-concourse-demo.git
     branch: master
-    private_key: {{github-private-key}}
+    private_key: {{github-public-private-key}}
 
 jobs:
 - name: job-android-demo
