@@ -20,7 +20,7 @@ jobs:
       inputs:
       - name: resource-android-demo
       run:
-        path: resource-bluetooth-scanner-android/gradlew
+        path: ./resource-bluetooth-scanner-android/gradlew
         args:
         - 'clean'
         - 'check'
